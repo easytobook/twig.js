@@ -5092,7 +5092,13 @@ var Twig = (function (Twig) {
             return value % params[0] === 0;
         },
         defined: function(value) {
-            return value !== undefined;
+            // FIXME: now also testing for null as twig internals already
+            // safeguarded for nested objects / properties that don't exist 
+            // and pass null. 
+            // 'Fixes' https://github.com/justjohn/twig.js/issues/160, at 
+            // least for our use cases, probably better dealt with earlier in
+            // the the flow.
+            return value !== undefined && value !== null;
         },
         none: function(value) {
             return value === null;
